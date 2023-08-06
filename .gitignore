@@ -1,2 +1,4 @@
+.idea/
 game_data/
 players_data/
+src/__pycache__/
