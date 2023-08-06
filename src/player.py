@@ -309,6 +309,7 @@ class Player:
         answer = ""
         if "hp_regeneration" in self.ITEMS()[item_name].keys():
             self.hp += self.ITEMS()[item_name]["hp_regeneration"]
+            self.hp = min(self.hp, 100)
             answer += f"{self.t('You have replenished')}: {self.ITEMS()[item_name]['hp_regeneration']} hp"
         if answer != "":
             self.remove_from_inventory(item_name, 1)
