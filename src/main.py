@@ -1,4 +1,3 @@
-import os
 import logging
 import aiogram
 
@@ -113,9 +112,12 @@ async def change_lang(message: aiogram.types.Message):
                  f"ID: {message.from_user.id}\t| "
                  f"User: {message.from_user.username}\t| "
                  f"Name: {message.from_user.full_name}")
-    answer = "Choose game language"
     keyboard = aiogram.types.InlineKeyboardMarkup().add(*functions.get_languages_buttons())
-    await message.answer(answer, reply_markup=keyboard)
+    await message.answer_photo(
+        open("../game_data/images/language.png", "rb"),
+        caption="Choose game language",
+        reply_markup=keyboard
+    )
 
 
 @dispatcher.message_handler(commands="quests_progres")
@@ -134,12 +136,12 @@ async def main(message: aiogram.types.Message):
                  f"ID: {message.from_user.id}\t| "
                  f"User: {message.from_user.username}\t| "
                  f"Name: {message.from_user.full_name}")
-    await message.reply("Unknown action. Please write to @umirotvoren1e if you have problems with game")
+    await message.reply("Unknown action. Try '/start' or '/continue' command. Please write to @umirotvoren1e if you have problems with game")
 
 
 @dispatcher.callback_query_handler(lambda a: (a.data in functions.get_all_actions()))
 async def process_callback(callback_query: aiogram.types.CallbackQuery):
-    logging.info(f"Text: {callback_query.message.text}\t| "
+    logging.info(f"Text: {callback_query.message.caption}\t| "
                  f"Button: {callback_query.data}\t|"
                  f"ID: {callback_query.from_user.id}\t| "
                  f"User: {callback_query.from_user.username}\t| "
@@ -150,11 +152,6 @@ async def process_callback(callback_query: aiogram.types.CallbackQuery):
         callback_query.from_user.full_name,
         callback_query.data
     )
-    # answer += functions.get_back_ground_image(
-    #     callback_query.from_user.id,
-    #     callback_query.from_user.username,
-    #     callback_query.from_user.full_name
-    # )
     keyboard = aiogram.types.InlineKeyboardMarkup().add(*functions.get_action_buttons(
         callback_query.from_user.id,
         callback_query.from_user.username,
