@@ -45,7 +45,18 @@ async def start(message: aiogram.types.Message):
         message.from_user.full_name
     ))
     # TODO: Rewrite '/start' message
-    await message.answer("Hi!\nI'm Renaissance!\nPowered by @umirotvoren1e.", reply_markup=keyboard)
+    await message.answer_photo(
+        open(
+            functions.get_back_ground_image(
+                message.from_user.id,
+                message.from_user.username,
+                message.from_user.full_name
+            ),
+            "rb"
+        ),
+        caption="Hi!\nI'm Renaissance!\nPowered by @umirotvoren1e.",
+        reply_markup=keyboard
+    )
 
 
 @dispatcher.message_handler(commands="continue")
@@ -57,7 +68,18 @@ async def continu(message: aiogram.types.Message):
         message.from_user.username,
         message.from_user.full_name
     ))
-    await message.answer("You continue from place where you stopped", reply_markup=keyboard)
+    await message.answer_photo(
+        open(
+            functions.get_back_ground_image(
+                message.from_user.id,
+                message.from_user.username,
+                message.from_user.full_name
+            ),
+            "rb"
+        ),
+        caption="You continue from place where you stopped",
+        reply_markup=keyboard
+    )
 
 
 # TODO: Write '/help' function
@@ -128,13 +150,30 @@ async def process_callback(callback_query: aiogram.types.CallbackQuery):
         callback_query.from_user.full_name,
         callback_query.data
     )
+    # answer += functions.get_back_ground_image(
+    #     callback_query.from_user.id,
+    #     callback_query.from_user.username,
+    #     callback_query.from_user.full_name
+    # )
     keyboard = aiogram.types.InlineKeyboardMarkup().add(*functions.get_action_buttons(
         callback_query.from_user.id,
         callback_query.from_user.username,
         callback_query.from_user.full_name
     ))
-    await callback_query.message.edit_text(answer)
-    await callback_query.message.edit_reply_markup(keyboard)
+    await callback_query.message.edit_media(
+        aiogram.types.InputMediaPhoto(
+            open(
+                functions.get_back_ground_image(
+                    callback_query.from_user.id,
+                    callback_query.from_user.username,
+                    callback_query.from_user.full_name
+                ),
+                "rb"
+            ),
+            caption=answer
+        ),
+        reply_markup=keyboard
+    )
 
 
 if __name__ == "__main__":

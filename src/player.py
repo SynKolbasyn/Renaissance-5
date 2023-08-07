@@ -196,6 +196,9 @@ class Player:
         if self.location["location"] != "Inventory":
             self.buttons.append({"text": self.t("Inventory"), "cbd": "Inventory"})
 
+    def update_image(self) -> str:
+        return f"../game_data/images/locations/{self.LOCATIONS()[self.location['location']]['image']}"
+
     def add_to_inventory(self, item_name: str, count: int):
         if item_name not in self.inventory.keys():
             self.inventory[item_name] = 0
@@ -395,5 +398,6 @@ class Player:
         if self.is_dead():
             answer += self.dead_script()
         self.update_buttons()
+        self.update_image()
         self.update_data()
         return answer

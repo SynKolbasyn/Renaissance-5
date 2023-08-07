@@ -75,6 +75,10 @@ def get_languages_buttons() -> list:
     return languages
 
 
+def get_back_ground_image(id: int, username: str, full_name: str) -> str:
+    return except_new_player(id, username, full_name).update_image()
+
+
 def get_all_actions() -> tuple:
     return tuple(player.get_dict_from_json("../game_data/resources/actions.json").keys())
 
