@@ -116,14 +116,14 @@ class Player:
         items_to_sell = []
         for item_name in self.inventory:
             if "sell" in self.ITEMS()[item_name]["types"]:
-                items_to_sell.append({"text": self.t(item_name), "cbd": item_name})
+                items_to_sell.append({"text": self.t(item_name) + " - " + str(self.ITEMS()[item_name]["price"]) + "cr", "cbd": item_name})
         items_to_sell.append({"text": self.t("Leave"), "cbd": "Leave"})
         return items_to_sell
 
     def buttons_buy(self) -> list:
         items_to_buy = []
         for item_name in self.LOCATIONS()[self.location["location"]]["items"]:
-            items_to_buy.append({"text": self.t(item_name), "cbd": item_name})
+            items_to_buy.append({"text": self.t(item_name) + " - " + str(self.LOCATIONS()[self.location["location"]]["items"][item_name]) + "cr", "cbd": item_name})
         items_to_buy.append({"text": self.t("Leave"), "cbd": "Leave"})
         return items_to_buy
 
