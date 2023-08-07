@@ -1,5 +1,4 @@
 import os
-import download_game_data
 
 
 os.mkdir("../game_data/")
@@ -19,5 +18,3 @@ with open("../game_data/token", "w") as file:
     file.write(input("Enter bot token: "))
 os.system("pip install -r requirements.txt")
 print("Project structure created. BUT YOU MUST FILL FILES BY DATA!!! WITHOUT DATA BOT WILL NOT WORK!!!")
-if input("Do you have access to original game data?[Y/n]: ").strip().lower() in ("y", "yes"):
-    download_game_data.main()
