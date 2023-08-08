@@ -269,7 +269,7 @@ class Player:
             self.money += self.ITEMS()[item_name]["price"]
             if not self.remove_from_inventory(item_name, 1):
                 return f"{self.t('You can not sold')}: {self.t(item_name)}"
-            return f"{self.t('You sold')}: {self.t(item_name)}"
+            return f"{self.t('You sold')}: {self.t(item_name)}\nYour money: {self.money}cr"
         return f"{self.t('You have not got')}: {self.t(item_name)}"
 
     def action_buy(self, item_name: str) -> str:
@@ -280,7 +280,7 @@ class Player:
                    f"Description: {self.t('You do not have enough money')}"
         self.money -= self.LOCATIONS()[self.location["location"]]["items"][item_name]
         self.add_to_inventory(item_name, 1)
-        return f"{self.t('You bought')}: {self.t(item_name)}"
+        return f"{self.t('You bought')}: {self.t(item_name)}\nYour money: {self.money}cr"
 
     def action_info(self, item_name: str) -> str:
         if item_name not in self.inventory.keys():

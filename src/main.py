@@ -35,7 +35,7 @@ async def setup_bot_commands(dispatcher):
 
 
 @dispatcher.message_handler(commands="start")
-async def start(message: aiogram.types.Message):
+async def proc_start(message: aiogram.types.Message):
     logging.info(f"Text: {message.text}\t| ID: {message.from_user.id}\t| User: {message.from_user.username}\t| "
                  f"Name: {message.from_user.full_name}")
     keyboard = aiogram.types.InlineKeyboardMarkup().add(*functions.get_action_buttons(
@@ -59,7 +59,7 @@ async def start(message: aiogram.types.Message):
 
 
 @dispatcher.message_handler(commands="continue")
-async def continu(message: aiogram.types.Message):
+async def proc_continue(message: aiogram.types.Message):
     logging.info(f"Text: {message.text}\t| ID: {message.from_user.id}\t| User: {message.from_user.username}\t| "
                  f"Name: {message.from_user.full_name}")
     keyboard = aiogram.types.InlineKeyboardMarkup().add(*functions.get_action_buttons(
@@ -81,11 +81,25 @@ async def continu(message: aiogram.types.Message):
     )
 
 
-# TODO: Write '/help' function
+@dispatcher.message_handler(commands="help")
+async def proc_help(message: aiogram.types.Message):
+    logging.info(f"Text: {message.text}\t| "
+                 f"ID: {message.from_user.id}\t| "
+                 f"User: {message.from_user.username}\t| "
+                 f"Name: {message.from_user.full_name}")
+    await message.reply("Hello, this is Renaissance - a telegram bot game.\n"
+                        "To start or continue the game, you can use the /start or /continue commands, respectively.\n"
+                        "The bot also has several auxiliary commands:\n"
+                        "/info - shows your game information\n"
+                        "/inventory - shows information about in-game inventory\n"
+                        "/change_lang - allows you to change the game language\n"
+                        "/quests_progres - shows information about current in-game quests\n"
+                        "/help - shows this message\n"
+                        "If you have any problems with the game or you want to offer your ideas for the game, write to @umirotvoren1e")
 
 
 @dispatcher.message_handler(commands="info")
-async def info(message: aiogram.types.Message):
+async def proc_info(message: aiogram.types.Message):
     logging.info(f"Text: {message.text}\t| "
                  f"ID: {message.from_user.id}\t| "
                  f"User: {message.from_user.username}\t| "
@@ -95,7 +109,7 @@ async def info(message: aiogram.types.Message):
 
 
 @dispatcher.message_handler(commands="inventory")
-async def inventory(message: aiogram.types.Message):
+async def proc_inventory(message: aiogram.types.Message):
     logging.info(f"Text: {message.text}\t| ID: {message.from_user.id}\t| User: {message.from_user.username}\t| "
                  f"Name: {message.from_user.full_name}")
     answer = functions.get_player_inventory_info(
@@ -107,7 +121,7 @@ async def inventory(message: aiogram.types.Message):
 
 
 @dispatcher.message_handler(commands="change_lang")
-async def change_lang(message: aiogram.types.Message):
+async def proc_change_lang(message: aiogram.types.Message):
     logging.info(f"Text: {message.text}\t| "
                  f"ID: {message.from_user.id}\t| "
                  f"User: {message.from_user.username}\t| "
@@ -121,7 +135,7 @@ async def change_lang(message: aiogram.types.Message):
 
 
 @dispatcher.message_handler(commands="quests_progres")
-async def tasks_progres(message: aiogram.types.Message):
+async def proc_tasks_progres(message: aiogram.types.Message):
     logging.info(f"Text: {message.text}\t| "
                  f"ID: {message.from_user.id}\t| "
                  f"User: {message.from_user.username}\t| "
@@ -157,6 +171,7 @@ async def process_callback(callback_query: aiogram.types.CallbackQuery):
         callback_query.from_user.username,
         callback_query.from_user.full_name
     ))
+    # try:
     await callback_query.message.edit_media(
         aiogram.types.InputMediaPhoto(
             open(
@@ -171,6 +186,8 @@ async def process_callback(callback_query: aiogram.types.CallbackQuery):
         ),
         reply_markup=keyboard
     )
+    # except aiogram.exceptions.MessageNotModified as e:
+    #     logging.info(e)
 
 
 if __name__ == "__main__":
